@@ -1,0 +1,15 @@
+{
+  "name": "notely-api",
+  "version": "0.1.0",
+  "description": "simple notes api built on Zeit's now.sh",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "serverless",
+    "now.sh"
+  ],
+  "author": "Kizito Akhilome <kizito@akhilo.me>",
+  "license": "ISC"
+}
