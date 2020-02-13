@@ -41,11 +41,19 @@ function updateNote({ id, title = null, body = null }) {
   return updatedNote;
 }
 
+function deleteNote(id) {
+  const allNotes = readNotesFromFS();
+  const remNotes = allNotes.filter(note => note.id != id);
+  writeNotesToFS(remNotes);
+  return id;
+}
+
 const NoteService = {
   saveNote,
   getNotes,
   getNoteById,
-  updateNote
+  updateNote,
+  deleteNote
 };
 
 module.exports = NoteService;

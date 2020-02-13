@@ -58,11 +58,32 @@ function updateNote(req, res) {
   });
 }
 
+function deleteNote(req, res) {
+  const { id } = req.params;
+  const note = NoteService.getNoteById(id);
+
+  if (!note) {
+    return res.status(404).json({
+      success: false,
+      message: 'Note not found',
+      data: null
+    });
+  }
+
+  NoteService.deleteNote(id);
+  return res.status(200).json({
+    success: true,
+    message: 'Note deleted successfully',
+    data: null
+  });
+}
+
 const NoteController = {
   createNote,
   getNotes,
   getSingleNote,
-  updateNote
+  updateNote,
+  deleteNote
 };
 
 module.exports = NoteController;
