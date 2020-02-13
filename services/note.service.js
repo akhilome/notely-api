@@ -11,7 +11,12 @@ function saveNote({ title, body }) {
   return newNote;
 }
 
-const NoteService = { saveNote };
+function getNotes() {
+  const notes = readNotesFromFS();
+  return notes;
+}
+
+const NoteService = { saveNote, getNotes };
 
 module.exports = NoteService;
 
