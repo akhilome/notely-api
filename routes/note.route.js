@@ -11,11 +11,13 @@ function requestHander(req, res) {
       const response = handleGET(req, res);
       return response;
     case 'PUT':
-      const { url } = req;
-      if (!singleNotePath.test(url)) return; // TODO: add invalid route handler
-      const baseURLPath = '/api/notes/';
-      req.params = { id: url.slice(baseURLPath.length) };
+      if (!singleNotePath.test(req.url)) return; // TODO: add invalid route handler
+      req.params = { id: req.url.slice(baseURLPath.length) };
       return NoteController.updateNote(req, res);
+    case 'DELETE':
+      if (!singleNotePath.test(req.url)) return; // TODO: add invalid route handler
+      req.params = { id: req.url.slice(baseURLPath.length) };
+      return NoteController.deleteNote(req, res);
   }
 }
 
@@ -27,6 +29,7 @@ module.exports = requestHander;
 var singleNotePath = new RegExp(/^\/api\/notes\/\d{1,}\/?$/);
 // matches /api/notes
 var allNotesPath = new RegExp(/^\/api\/notes\/?$/);
+var baseURLPath = '/api/notes/';
 
 function handleGET(req, res) {
   const { url } = req;
@@ -34,7 +37,6 @@ function handleGET(req, res) {
   if (allNotesPath.test(url)) {
     return NoteController.getNotes(req, res);
   } else if (singleNotePath.test(url)) {
-    const baseURLPath = '/api/notes/';
     const id = url.slice(baseURLPath.length);
     req.params = { id };
     return NoteController.getSingleNote(req, res);
