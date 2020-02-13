@@ -10,6 +10,12 @@ function requestHander(req, res) {
     case 'GET':
       const response = handleGET(req, res);
       return response;
+    case 'PUT':
+      const { url } = req;
+      if (!singleNotePath.test(url)) return; // TODO: add invalid route handler
+      const baseURLPath = '/api/notes/';
+      req.params = { id: url.slice(baseURLPath.length) };
+      return NoteController.updateNote(req, res);
   }
 }
 
