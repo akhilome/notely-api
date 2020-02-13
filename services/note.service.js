@@ -16,7 +16,13 @@ function getNotes() {
   return notes;
 }
 
-const NoteService = { saveNote, getNotes };
+function getSingleNote(id) {
+  const allNotes = readNotesFromFS();
+  const [note] = allNotes.filter(note => note.id == id);
+  return note;
+}
+
+const NoteService = { saveNote, getNotes, getSingleNote };
 
 module.exports = NoteService;
 

@@ -3,5 +3,5 @@
   "alias": "notely",
   "version": 2,
   "builds": [{ "src": "routes/*.js", "use": "@now/node" }],
-  "routes": [{ "src": "/api/notes", "dest": "routes/note.route.js" }]
+  "routes": [{ "src": "/api/notes(.*)", "dest": "routes/note.route.js" }]
 }
