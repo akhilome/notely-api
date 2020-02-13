@@ -7,6 +7,9 @@ function requestHander(req, res) {
     case 'POST':
       const newNote = NoteController.createNote(req, res);
       return newNote;
+    case 'GET':
+      const notes = NoteController.getNotes(req, res);
+      return notes;
   }
 }
 

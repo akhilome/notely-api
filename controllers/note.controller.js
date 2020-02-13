@@ -10,6 +10,15 @@ function createNote(req, res) {
   });
 }
 
-const NoteController = { createNote };
+function getNotes(req, res) {
+  const notes = NoteService.getNotes();
+  res.status(200).json({
+    success: true,
+    message: 'Notes fetched successfully',
+    data: notes
+  });
+}
+
+const NoteController = { createNote, getNotes };
 
 module.exports = NoteController;
