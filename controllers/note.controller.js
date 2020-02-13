@@ -21,7 +21,7 @@ function getNotes(req, res) {
 
 function getSingleNote(req, res) {
   const { id } = req.params;
-  const note = NoteService.getSingleNote(id);
+  const note = NoteService.getNoteById(id);
   if (!note) {
     res.status(404).json({
       success: false,
