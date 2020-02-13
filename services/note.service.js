@@ -22,7 +22,31 @@ function getNoteById(id) {
   return note;
 }
 
-const NoteService = { saveNote, getNotes, getNoteById };
+function updateNote({ id, title = null, body = null }) {
+  const allNotes = readNotesFromFS();
+  const [noteToBeUpdated] = allNotes.filter(note => note.id == id);
+  const remNotes = allNotes.filter(note => note.id != id);
+  const updatedTitle = title || noteToBeUpdated.title;
+  const updatedBody = body || noteToBeUpdated.body;
+
+  const updatedNote = {
+    ...noteToBeUpdated,
+    title: updatedTitle,
+    body: updatedBody
+  };
+
+  const updatedNotes = [...remNotes, updatedNote].sort((a, b) => a.id - b.id);
+  writeNotesToFS(updatedNotes);
+
+  return updatedNote;
+}
+
+const NoteService = {
+  saveNote,
+  getNotes,
+  getNoteById,
+  updateNote
+};
 
 module.exports = NoteService;
 
