@@ -19,6 +19,24 @@ function getNotes(req, res) {
   });
 }
 
-const NoteController = { createNote, getNotes };
+function getSingleNote(req, res) {
+  const { id } = req.params;
+  const note = NoteService.getSingleNote(id);
+  if (!note) {
+    res.status(404).json({
+      success: false,
+      message: 'Note not found',
+      data: null
+    });
+  } else {
+    res.status(200).json({
+      success: true,
+      message: 'Note fetched successfully',
+      data: note
+    });
+  }
+}
+
+const NoteController = { createNote, getNotes, getSingleNote };
 
 module.exports = NoteController;
