@@ -11,13 +11,15 @@ function requestHander(req, res) {
       const response = handleGET(req, res);
       return response;
     case 'PUT':
-      if (!singleNotePath.test(req.url)) return; // TODO: add invalid route handler
+      if (!singleNotePath.test(req.url)) return handleInvalid(req, res);
       req.params = { id: req.url.slice(baseURLPath.length) };
       return NoteController.updateNote(req, res);
     case 'DELETE':
-      if (!singleNotePath.test(req.url)) return; // TODO: add invalid route handler
+      if (!singleNotePath.test(req.url)) return handleInvalid(req, res);
       req.params = { id: req.url.slice(baseURLPath.length) };
       return NoteController.deleteNote(req, res);
+    default:
+      return handleInvalid(req, res);
   }
 }
 
@@ -41,4 +43,12 @@ function handleGET(req, res) {
     req.params = { id };
     return NoteController.getSingleNote(req, res);
   }
+}
+
+function handleInvalid(req, res) {
+  return res.status(404).json({
+    success: false,
+    message: 'Invalid route',
+    data: null
+  });
 }
