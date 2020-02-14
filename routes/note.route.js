@@ -28,7 +28,7 @@ module.exports = requestHander;
 // ========== Utilities ========== //
 
 // matches /api/notes/<id>
-var singleNotePath = new RegExp(/^\/api\/notes\/\d{1,}\/?$/);
+var singleNotePath = new RegExp(/^\/api\/notes\/\w{1,}\/?$/);
 // matches /api/notes
 var allNotesPath = new RegExp(/^\/api\/notes\/?$/);
 var baseURLPath = '/api/notes/';
