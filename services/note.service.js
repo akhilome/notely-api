@@ -4,6 +4,7 @@ function saveNote({ title, body }) {
   const newNote = { id, title, body };
   const updatedNotes = [...previousNotes, newNote];
   writeNotesToDB(updatedNotes);
+  updateIdTracker();
 
   return newNote;
 }
@@ -63,11 +64,21 @@ function fetchAllNotes() {
   return db.notes;
 }
 
-function getNextId() {
-  const allNotes = fetchAllNotes();
-  return allNotes.length + 1;
-}
-
 function writeNotesToDB(notes) {
   db.notes = notes;
+}
+
+function getLastId() {
+  const [lastId] = db.usedIds.slice(-1);
+  return lastId;
+}
+
+function getNextId() {
+  const lastId = getLastId();
+  return lastId + 1;
+}
+
+function updateIdTracker() {
+  const nextId = getNextId();
+  db.usedIds.push(nextId);
 }

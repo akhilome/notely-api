@@ -1,3 +1,4 @@
 {
-  "notes": [{ "id": 1, "title": "YSIV", "body": "LOGIC flows like a faucet" }]
+  "notes": [{ "id": 1, "title": "YSIV", "body": "LOGIC flows like a faucet" }],
+  "usedIds": [1]
 }
