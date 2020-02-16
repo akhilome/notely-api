@@ -1,29 +1,26 @@
-const path = require('path');
-const fs = require('fs');
-
 function saveNote({ title, body }) {
   const id = getNextId();
-  const previousNotes = readNotesFromFS();
+  const previousNotes = fetchAllNotes();
   const newNote = { id, title, body };
   const updatedNotes = [...previousNotes, newNote];
-  writeNotesToFS(updatedNotes);
+  writeNotesToDB(updatedNotes);
 
   return newNote;
 }
 
 function getNotes() {
-  const notes = readNotesFromFS();
+  const notes = fetchAllNotes();
   return notes;
 }
 
 function getNoteById(id) {
-  const allNotes = readNotesFromFS();
+  const allNotes = fetchAllNotes();
   const [note] = allNotes.filter(note => note.id == id);
   return note;
 }
 
 function updateNote({ id, title = null, body = null }) {
-  const allNotes = readNotesFromFS();
+  const allNotes = fetchAllNotes();
   const [noteToBeUpdated] = allNotes.filter(note => note.id == id);
   const remNotes = allNotes.filter(note => note.id != id);
   const updatedTitle = title || noteToBeUpdated.title;
@@ -36,15 +33,15 @@ function updateNote({ id, title = null, body = null }) {
   };
 
   const updatedNotes = [...remNotes, updatedNote].sort((a, b) => a.id - b.id);
-  writeNotesToFS(updatedNotes);
+  writeNotesToDB(updatedNotes);
 
   return updatedNote;
 }
 
 function deleteNote(id) {
-  const allNotes = readNotesFromFS();
+  const allNotes = fetchAllNotes();
   const remNotes = allNotes.filter(note => note.id != id);
-  writeNotesToFS(remNotes);
+  writeNotesToDB(remNotes);
   return id;
 }
 
@@ -60,28 +57,17 @@ module.exports = NoteService;
 
 // ========== Service Utilities ========== //
 
-function readNotesFromFS() {
-  const notes = fs.readFileSync(path.join(__dirname, '../db/notes.json'), {
-    encoding: 'utf8'
-  });
-  let allNotes;
-  if (notes == '') {
-    allNotes = [];
-  } else {
-    allNotes = JSON.parse(notes);
-  }
+const db = require('../db/notes.json');
 
-  return allNotes;
+function fetchAllNotes() {
+  return db.notes;
 }
 
 function getNextId() {
-  const allNotes = readNotesFromFS();
+  const allNotes = fetchAllNotes();
   return allNotes.length + 1;
 }
 
-function writeNotesToFS(notes) {
-  fs.writeFileSync(
-    path.join(__dirname, '../db/notes.json'),
-    JSON.stringify(notes)
-  );
+function writeNotesToDB(notes) {
+  db.notes = notes;
 }
