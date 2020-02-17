@@ -1,4 +1,4 @@
-import NoteService from '../services/note.service';
+const NoteService = require('../services/note.service');
 
 function createNote(req, res) {
   const { title, body } = req.body;
