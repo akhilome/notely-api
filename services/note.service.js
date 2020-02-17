@@ -69,7 +69,7 @@ function writeNotesToDB(notes) {
 }
 
 function getLastId() {
-  const [lastId] = db.usedIds.slice(-1);
+  const [lastId = 0] = db.usedIds.slice(-1);
   return lastId;
 }
 
